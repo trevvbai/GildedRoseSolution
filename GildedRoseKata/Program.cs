@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using GildedRoseKata.Enums;
 using Xunit;
 
 namespace GildedRoseKata
@@ -9,45 +10,46 @@ namespace GildedRoseKata
         public static void Main(string[] args)
         {
             Console.WriteLine("OMGHAI!");
+            const int daysInMonth = 31;
 
-            IList<Item> Items = new List<Item>{
-                new Item {Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
-                new Item {Name = "Aged Brie", SellIn = 2, Quality = 0},
-                new Item {Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7},
-                new Item {Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80},
-                new Item {Name = "Sulfuras, Hand of Ragnaros", SellIn = -1, Quality = 80},
-                new Item
+            IList<Item> inventoryItems = new List<Item>{
+                new() {Name = ItemNames.DexterityVest, SellIn = 10, Quality = 20},
+                new() {Name = ItemNames.AgedBrie, SellIn = 2, Quality = 0},
+                new() {Name = ItemNames.MongooseElixir, SellIn = 5, Quality = 7},
+                new() {Name = ItemNames.Sulfuras, SellIn = 0, Quality = 80},
+                new() {Name = ItemNames.Sulfuras, SellIn = -1, Quality = 80},
+                new()
                 {
-                    Name = "Backstage passes to a TAFKAL80ETC concert",
+                    Name = ItemNames.BackstagePass,
                     SellIn = 15,
                     Quality = 20
                 },
-                new Item
+                new()
                 {
-                    Name = "Backstage passes to a TAFKAL80ETC concert",
+                    Name = ItemNames.BackstagePass,
                     SellIn = 10,
                     Quality = 49
                 },
-                new Item
+                new()
                 {
-                    Name = "Backstage passes to a TAFKAL80ETC concert",
+                    Name = ItemNames.BackstagePass,
                     SellIn = 5,
                     Quality = 49
                 },
 				// this conjured item does not work properly yet
-				new Item {Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}
+				new() {Name = ItemNames.ManaCake, SellIn = 3, Quality = 6}
             };
 
-            var app = new GildedRose(Items);
+            var app = new GildedRose(inventoryItems);
 
 
-            for (var i = 0; i < 31; i++)
+            for (var i = 0; i < daysInMonth; i++)
             {
                 Console.WriteLine("-------- day " + i + " --------");
                 Console.WriteLine("name, sellIn, quality");
-                for (var j = 0; j < Items.Count; j++)
+                foreach (var item in inventoryItems)
                 {
-                    System.Console.WriteLine(Items[j].Name + ", " + Items[j].SellIn + ", " + Items[j].Quality);
+                    Console.WriteLine(item.Name + ", " + item.SellIn + ", " + item.Quality);
                 }
                 Console.WriteLine("");
                 app.UpdateQuality();

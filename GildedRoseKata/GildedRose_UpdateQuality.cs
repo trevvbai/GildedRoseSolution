@@ -2,6 +2,7 @@
 using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
+using GildedRoseKata.Enums;
 using Xunit;
 
 namespace GildedRoseKata
@@ -15,11 +16,12 @@ namespace GildedRoseKata
         [Fact]
         public void DoesNothingGivenSulfuras()
         {
-            int initialQuality = 80;
+            const int initialQuality = 80;
             var items = new List<Item> {
-                                new Item {Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = initialQuality},
+                                new() {Name = ItemNames.Sulfuras, SellIn = 0, Quality = initialQuality},
 
             };
+            
             var gildedRose = new GildedRose(items);
             
             gildedRose.UpdateQuality();

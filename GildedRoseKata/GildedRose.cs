@@ -1,89 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using Xunit;
+﻿using System.Collections.Generic;
+using GildedRoseKata.Enums;
+using GildedRoseKata.Helpers;
 
 namespace GildedRoseKata
 {
     public class GildedRose
     {
-        IList<Item> Items;
-        public GildedRose(IList<Item> Items)
+        private readonly IList<Item> _inventoryItems;
+
+        public GildedRose(IList<Item> inventoryItems)
         {
-            this.Items = Items;
+            _inventoryItems = inventoryItems;
         }
 
+
+        //todo reduce nesting level
+        //todo reduce conditional complexity
+        //todo use short functions that are well named and easily fit into one screen
         public void UpdateQuality()
         {
-            for (var i = 0; i < Items.Count; i++)
+            var qualityHelpers = new QualityHelpers();
+
+            foreach (var item in _inventoryItems)
             {
-                if (Items[i].Name != "Aged Brie" && Items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
+                switch (item.Name)
                 {
-                    if (Items[i].Quality > 0)
-                    {
-                        if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
-                        {
-                            Items[i].Quality = Items[i].Quality - 1;
-                        }
-                    }
-                }
-                else
-                {
-                    if (Items[i].Quality < 50)
-                    {
-                        Items[i].Quality = Items[i].Quality + 1;
+                    case ItemNames.Sulfuras:
+                        break;
 
-                        if (Items[i].Name == "Backstage passes to a TAFKAL80ETC concert")
-                        {
-                            if (Items[i].SellIn < 11)
-                            {
-                                if (Items[i].Quality < 50)
-                                {
-                                    Items[i].Quality = Items[i].Quality + 1;
-                                }
-                            }
+                    case ItemNames.AgedBrie:
+                        qualityHelpers.HandleAgedBrie(item);
+                        break;
 
-                            if (Items[i].SellIn < 6)
-                            {
-                                if (Items[i].Quality < 50)
-                                {
-                                    Items[i].Quality = Items[i].Quality + 1;
-                                }
-                            }
-                        }
-                    }
-                }
+                    case ItemNames.BackstagePass:
+                        qualityHelpers.HandleBackstagePass(item);
+                        break;
 
-                if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
-                {
-                    Items[i].SellIn = Items[i].SellIn - 1;
-                }
-
-                if (Items[i].SellIn < 0)
-                {
-                    if (Items[i].Name != "Aged Brie")
-                    {
-                        if (Items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
-                        {
-                            if (Items[i].Quality > 0)
-                            {
-                                if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
-                                {
-                                    Items[i].Quality = Items[i].Quality - 1;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Items[i].Quality = Items[i].Quality - Items[i].Quality;
-                        }
-                    }
-                    else
-                    {
-                        if (Items[i].Quality < 50)
-                        {
-                            Items[i].Quality = Items[i].Quality + 1;
-                        }
-                    }
+                    default:
+                        qualityHelpers.HandleNormalItem(item);
+                        break;
                 }
             }
         }

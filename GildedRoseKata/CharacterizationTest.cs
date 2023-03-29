@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Xunit;
@@ -16,7 +15,6 @@ namespace GildedRoseKata
             Console.SetIn(new StringReader("a\n"));
             Program.Main(new string[] { });
             String output = sb.ToString();
-
 
             string expectedOutput = File.ReadAllText("CharacterizationTest.txt");
 
