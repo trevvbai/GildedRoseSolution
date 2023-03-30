@@ -23,7 +23,7 @@ namespace GildedRoseKata
 
                 foreach (var item in _inventoryItems)
                 {
-                    qualityHelpers.ValidateItemQuality(item.Quality);
+                    qualityHelpers.ValidateItemQuality(item);
 
                     switch (item.Name)
                     {
@@ -37,13 +37,16 @@ namespace GildedRoseKata
                         case ItemNames.BackstagePass:
                             qualityHelpers.HandleBackstagePass(item);
                             break;
-                        
-                        case "Conjured" when item.Name.Contains("Conjured"):
-                            qualityHelpers.HandleConjuredItem(item);
-                            break;
 
                         default:
-                            qualityHelpers.HandleNormalItem(item);
+                            if (item.Name.Contains("Conjured"))
+                            {
+                                qualityHelpers.HandleConjuredItem(item);
+                            }
+                            else
+                            {
+                                qualityHelpers.HandleNormalItem(item);
+                            }
                             break;
                     }
                 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using GildedRoseKata.Enums;
 
 namespace GildedRoseKata.Helpers
 {
@@ -62,30 +63,49 @@ namespace GildedRoseKata.Helpers
             }
 
             item.SellIn -= 1;
+            
+            //degrades twice as fast after sell date
+            if (item.SellIn < 0)
+            {
+                if (item.Quality > 0)
+                {
+                    item.Quality -= 1;
+                }            
+            }
 
-            if (item.SellIn >= 0) return;
+        }
+        
+        public void HandleConjuredItem(Item item)
+        {
             if (item.Quality > 0)
             {
-                item.Quality -= 1;
+                item.Quality -= 2;
+            }
+            
+            item.SellIn -= 1;
+
+            if (item.SellIn < 0)
+            {
+                if (item.Quality > 1)
+                {
+                    item.Quality -= 2;
+                }            
             }
         }
 
-        public void ValidateItemQuality(int quality)
+        public void ValidateItemQuality(Item item)
         {
-            if (quality > 50)
+            if (item.Quality > 50 && item.Name != ItemNames.Sulfuras)
             {
                 throw new Exception("Quality cannot be over 50");
             }
-                    
-            if (quality < 0)
+
+            if (item.Quality < 0)
             {
                 throw new Exception("Quality cannot be less than 0");
             }
         }
 
-        public void HandleConjuredItem(Item item)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

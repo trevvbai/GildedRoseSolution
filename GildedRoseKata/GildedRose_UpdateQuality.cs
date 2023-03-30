@@ -55,7 +55,7 @@ namespace GildedRoseKata
         }
 
         [Fact]
-        public void TestBackstagePassQualityIncreaseBy2()
+        public void TestBackstagePassQualityIncreaseByTwo()
         {
             //Arrange
             var items = new List<Item> {
@@ -79,7 +79,7 @@ namespace GildedRoseKata
         }        
         
         [Fact]
-        public void TestBackstagePassQualityIncreaseBy3()
+        public void TestBackstagePassQualityIncreaseByThree()
         {
             //Arrange
             var items = new List<Item> {
@@ -209,10 +209,10 @@ namespace GildedRoseKata
             
             //Act
             gildedRose.UpdateQuality();
-            var brie = items.First();
+            var elixir = items.First();
 
             //Assert
-            brie.Quality.ShouldBe(0);
+            elixir.Quality.ShouldBe(0);
             
         }
         
@@ -265,6 +265,58 @@ namespace GildedRoseKata
 
             //Assert
             brie.Quality.ShouldBe(5);
+            
+        }
+        
+        [Fact]
+        public void TestConjuredQualityDegradesTwiceAsFast()
+        {
+            //Arrange
+            var items = new List<Item> {
+                new()
+                {
+                    Name = ItemNames.ManaCake,
+                    SellIn = 2,
+                    Quality = 3
+                },
+            };
+            
+            var gildedRose = new GildedRose(items);
+
+            
+            //Act
+            gildedRose.UpdateQuality();
+                
+            var mana = items.First();
+
+            //Assert
+            mana.Quality.ShouldBe(1);
+            
+        }
+        
+        [Fact]
+        public void TestConjuredQualityDegradesTwiceAsFastAfterSellDatePassed()
+        {
+            //Arrange
+            var items = new List<Item> {
+                new()
+                {
+                    Name = ItemNames.ManaCake,
+                    SellIn = 0,
+                    Quality = 6
+                },
+            };
+            
+            var gildedRose = new GildedRose(items);
+
+            
+            //Act
+            gildedRose.UpdateQuality();
+                
+            var mana = items.First();
+
+            //Assert
+            mana.Quality.ShouldBe(2);
             
         }
         
