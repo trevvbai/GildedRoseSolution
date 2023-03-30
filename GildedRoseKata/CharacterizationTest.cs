@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using Shouldly;
 using Xunit;
 
 namespace GildedRoseKata
@@ -18,7 +19,7 @@ namespace GildedRoseKata
 
             string expectedOutput = File.ReadAllText("CharacterizationTest.txt");
 
-            Assert.Equal(expectedOutput.Trim(), output.Trim());
+            expectedOutput.Trim().ShouldBeEquivalentTo(output.Trim()); 
         }
     }
 }

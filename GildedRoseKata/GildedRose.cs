@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GildedRoseKata.Enums;
 using GildedRoseKata.Helpers;
+using Xunit.Sdk;
 
 namespace GildedRoseKata
 {
@@ -12,35 +14,46 @@ namespace GildedRoseKata
         {
             _inventoryItems = inventoryItems;
         }
-
-
-        //todo reduce nesting level
-        //todo reduce conditional complexity
-        //todo use short functions that are well named and easily fit into one screen
+        
         public void UpdateQuality()
         {
-            var qualityHelpers = new QualityHelpers();
-
-            foreach (var item in _inventoryItems)
+            try
             {
-                switch (item.Name)
+                var qualityHelpers = new QualityHelpers();
+
+                foreach (var item in _inventoryItems)
                 {
-                    case ItemNames.Sulfuras:
-                        break;
+                    qualityHelpers.ValidateItemQuality(item.Quality);
 
-                    case ItemNames.AgedBrie:
-                        qualityHelpers.HandleAgedBrie(item);
-                        break;
+                    switch (item.Name)
+                    {
+                        case ItemNames.Sulfuras:
+                            break;
 
-                    case ItemNames.BackstagePass:
-                        qualityHelpers.HandleBackstagePass(item);
-                        break;
+                        case ItemNames.AgedBrie:
+                            qualityHelpers.HandleAgedBrie(item);
+                            break;
 
-                    default:
-                        qualityHelpers.HandleNormalItem(item);
-                        break;
+                        case ItemNames.BackstagePass:
+                            qualityHelpers.HandleBackstagePass(item);
+                            break;
+                        
+                        case "Conjured" when item.Name.Contains("Conjured"):
+                            qualityHelpers.HandleConjuredItem(item);
+                            break;
+
+                        default:
+                            qualityHelpers.HandleNormalItem(item);
+                            break;
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
         }
     }
 }

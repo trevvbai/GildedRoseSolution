@@ -1,4 +1,6 @@
-﻿namespace GildedRoseKata.Helpers
+﻿using System;
+
+namespace GildedRoseKata.Helpers
 {
     public class QualityHelpers
     {
@@ -68,5 +70,22 @@
             }
         }
 
+        public void ValidateItemQuality(int quality)
+        {
+            if (quality > 50)
+            {
+                throw new Exception("Quality cannot be over 50");
+            }
+                    
+            if (quality < 0)
+            {
+                throw new Exception("Quality cannot be less than 0");
+            }
+        }
+
+        public void HandleConjuredItem(Item item)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
